@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.deepPurpleAccent,
             foregroundColor: Colors.white,
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
@@ -53,14 +56,14 @@ class _WifiLocatorState extends State<WifiLocator> {
     setState(() => accessPoints = results);
 
     // Send to API for CSV storage
-    final wifiList = results.map((ap) {
-      return {
-
-        "ssid": ap.ssid,
-        "macAddress": ap.bssid.toLowerCase(),
-        "signalStrength": ap.level
-      };
-    }).toList();
+    final wifiList =
+        results.map((ap) {
+          return {
+            "ssid": ap.ssid,
+            "macAddress": ap.bssid.toLowerCase(),
+            "signalStrength": ap.level,
+          };
+        }).toList();
 
     try {
       final response = await http.post(
@@ -79,23 +82,23 @@ class _WifiLocatorState extends State<WifiLocator> {
     }
   }
 
-
   Future<void> locate() async {
     if (accessPoints.isEmpty) {
       setState(() => locationResult = "No APs scanned yet");
       return;
     }
 
-    final wifiList = accessPoints.map((ap) {
-      return {
-        "ssid": ap.ssid.isEmpty ? "<hidden>" : ap.ssid,
-        "macAddress": ap.bssid.toLowerCase(),
-        "signalStrength": ap.level
-      };
-    }).toList();
+    final wifiList =
+        accessPoints.map((ap) {
+          return {
+            "ssid": ap.ssid.isEmpty ? "<hidden>" : ap.ssid,
+            "macAddress": ap.bssid.toLowerCase(),
+            "signalStrength": ap.level,
+          };
+        }).toList();
 
     final response = await http.post(
-      Uri.parse("http://10.201.193.6:3000/get-location"), // Replace with your server IP
+      Uri.parse("http://10.201.193.6:3000/get-location"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"wifiAccessPoints": wifiList}),
     );
@@ -107,25 +110,29 @@ class _WifiLocatorState extends State<WifiLocator> {
 
       // Map MAC -> SSID from scanned list
       final ssidMap = {
-        for (var ap in accessPoints) ap.bssid.toLowerCase(): ap.ssid.isEmpty ? "<hidden>" : ap.ssid
+        for (var ap in accessPoints)
+          ap.bssid.toLowerCase(): ap.ssid.isEmpty ? "<hidden>" : ap.ssid,
       };
 
       // Build AP info text
-      final apInfo = usedAPs.map((ap) {
-        final mac = ap['macAddress'];
-        final ssid = ssidMap[mac] ?? "<unknown>";
-        final rssi = ap['signalStrength'];
-        return "$ssid ($mac, $rssi dBm)";
-      }).join("\n");
+      final apInfo = usedAPs
+          .map((ap) {
+            final mac = ap['macAddress'];
+            final ssid = ssidMap[mac] ?? "<unknown>";
+            final rssi = ap['signalStrength'];
+            return "$ssid ($mac, $rssi dBm)";
+          })
+          .join("\n");
 
-      setState(() => locationResult =
-      "Lat: ${location['lat']}\n"
-          "Lng: ${location['lng']}\n"
-          "Acc: ${location['accuracy']}m\n\n"
-          "📡 Used APs:\n$apInfo");
+      setState(
+        () =>
+            locationResult =
+                "Lat: ${location['lat']}\n"
+                "Lng: ${location['lng']}\n"
+                "Acc: ${location['accuracy']}m\n\n"
+                "📡 Used APs:\n$apInfo",
+      );
     }
-
-
   }
 
   @override
@@ -175,9 +182,10 @@ class _WifiLocatorState extends State<WifiLocator> {
                   child: Text(
                     locationResult,
                     style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white70),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white70,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -189,7 +197,9 @@ class _WifiLocatorState extends State<WifiLocator> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => WifiListScreen(accessPoints)),
+                    MaterialPageRoute(
+                      builder: (_) => WifiListScreen(accessPoints),
+                    ),
                   );
                 },
                 icon: const Icon(Icons.list_alt, color: Colors.white),
@@ -220,34 +230,43 @@ class WifiListScreen extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
         elevation: 6,
       ),
-      body: accessPoints.isEmpty
-          ? const Center(child: Text("No WiFi scanned"))
-          : ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: accessPoints.length,
-        itemBuilder: (ctx, i) {
-          final ap = accessPoints[i];
-          return Card(
-            color: const Color(0xFF1E1E1E),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
-            elevation: 5,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              leading: const Icon(Icons.wifi, color: Colors.deepPurpleAccent),
-              title: Text(
-                ap.ssid.isEmpty ? "<hidden>" : ap.ssid,   // ✅ Show AP name
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      body:
+          accessPoints.isEmpty
+              ? const Center(child: Text("No WiFi scanned"))
+              : ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: accessPoints.length,
+                itemBuilder: (ctx, i) {
+                  final ap = accessPoints[i];
+                  return Card(
+                    color: const Color(0xFF1E1E1E),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.wifi,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      title: Text(
+                        ap.ssid.isEmpty
+                            ? "<hidden>"
+                            : ap.ssid, // ✅ Show AP name
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "BSSID: ${ap.bssid}\nRSSI: ${ap.level} dBm",
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                  );
+                },
               ),
-              subtitle: Text(
-                "BSSID: ${ap.bssid}\nRSSI: ${ap.level} dBm",
-                style: const TextStyle(color: Colors.white70),
-              ),
-            ),
-
-          );
-        },
-      ),
     );
   }
 }
