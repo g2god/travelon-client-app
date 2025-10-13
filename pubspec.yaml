@@ -23,6 +23,8 @@ dependencies:
   http: ^1.5.0
   flutter_osm_plugin:
   permission_handler:
+  flutter_map:
+  latlong2:
 
 dev_dependencies:
   flutter_test:

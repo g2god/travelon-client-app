@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locatewifi/WifiLocator.dart';
 import 'package:locatewifi/WifiSurveyPage.dart';
+import 'package:locatewifi/mypage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: WifiLocator(),
+      // home: WifiLocator(),
+      home: MapPage(),
     );
   }
 }
