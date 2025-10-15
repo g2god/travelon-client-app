@@ -52,8 +52,8 @@ class _MapPageState extends State<MapPage> {
           options: MapOptions(
             initialCenter: LatLng(10.8505, 76.2711), // default
             initialZoom: 10.0,
-            maxZoom: 18.0,
-            minZoom: 1.0,
+            // maxZoom: 18.0,
+            // minZoom: 1.0,
           ),
           children: [
             TileLayer(
