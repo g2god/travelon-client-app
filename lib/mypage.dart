@@ -46,7 +46,16 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('OpenStreetMap Example')),
+        appBar: AppBar(
+          title: Text(
+            'OpenStreetMap Example',
+            style: TextStyle(
+              fontFamily: 'Archivo',
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         body: FlutterMap(
           mapController: _mapController,
           options: MapOptions(

@@ -1,3 +1,4 @@
+import 'package:Travelon/core/pages/splash/splashpage.dart';
 import 'package:flutter/material.dart';
 
 import 'mypage.dart';
@@ -12,9 +13,11 @@ class yenApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Archivo',
       ),
       // home: WifiLocator(),
-      home: MapPage(),
+      // home: MapPage(),
+      home: Splashpage(),
     );
   }
 }
