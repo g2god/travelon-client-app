@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:locatewifi/app.dart';
 
 import 'WifiLocator.dart';
+import 'app.dart';
 
 // app entry point
 void main() {
