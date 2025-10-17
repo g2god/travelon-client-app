@@ -9,3 +9,4 @@ void main() {
   runApp(yenApp());
   FlutterNativeSplash.remove();
 }
+//this is test command
